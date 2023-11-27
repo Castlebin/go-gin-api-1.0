@@ -1,11 +1,12 @@
 package jaeger
 
 import (
+	"go_gin_api_1_0/app/config"
+	"go_gin_api_1_0/app/util/jaeger_trace"
+
 	"github.com/gin-gonic/gin"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
-	"go-gin-api/app/config"
-	"go-gin-api/app/util/jaeger_trace"
 )
 
 func SetUp() gin.HandlerFunc {

@@ -3,16 +3,17 @@ package sign_aes
 import (
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/xinliangnote/go-util/aes"
-	timeUtil "github.com/xinliangnote/go-util/time"
-	"go-gin-api/app/config"
-	"go-gin-api/app/util/response"
+	"go_gin_api_1_0/app/config"
+	"go_gin_api_1_0/app/util/response"
 	"net/url"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/xinliangnote/go-util/aes"
+	timeUtil "github.com/xinliangnote/go-util/time"
 )
 
 var AppSecret string
@@ -44,11 +45,11 @@ func SetUp() gin.HandlerFunc {
 // 验证签名
 func verifySign(c *gin.Context) (map[string]string, error) {
 	_ = c.Request.ParseForm()
-	req   := c.Request.Form
+	req := c.Request.Form
 	debug := strings.Join(c.Request.Form["debug"], "")
-	ak    := strings.Join(c.Request.Form["ak"], "")
-	sn    := strings.Join(c.Request.Form["sn"], "")
-	ts    := strings.Join(c.Request.Form["ts"], "")
+	ak := strings.Join(c.Request.Form["ak"], "")
+	sn := strings.Join(c.Request.Form["sn"], "")
+	ts := strings.Join(c.Request.Form["ts"], "")
 
 	// 验证来源
 	value, ok := config.ApiAuthConfig[ak]
@@ -76,9 +77,9 @@ func verifySign(c *gin.Context) (map[string]string, error) {
 
 	// 验证过期时间
 	timestamp := time.Now().Unix()
-	exp, _    := strconv.ParseInt(config.AppSignExpiry, 10, 64)
-	tsInt, _  := strconv.ParseInt(ts, 10, 64)
-	if tsInt > timestamp || timestamp - tsInt >= exp {
+	exp, _ := strconv.ParseInt(config.AppSignExpiry, 10, 64)
+	tsInt, _ := strconv.ParseInt(ts, 10, 64)
+	if tsInt > timestamp || timestamp-tsInt >= exp {
 		return nil, errors.New("ts Error")
 	}
 

@@ -3,14 +3,15 @@ package grpc_client
 import (
 	"context"
 	"fmt"
+	"go_gin_api_1_0/app/config"
+	"go_gin_api_1_0/app/util/grpc_log"
+	"go_gin_api_1_0/app/util/jaeger_trace"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	grpc_middeware "github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/opentracing/opentracing-go"
-	"go-gin-api/app/config"
-	"go-gin-api/app/util/grpc_log"
-	"go-gin-api/app/util/jaeger_trace"
 	"google.golang.org/grpc"
-	"time"
 )
 
 func CreateServiceListenConn(c *gin.Context) *grpc.ClientConn {
@@ -34,12 +35,12 @@ func createGrpcConn(serviceAddress string, c *gin.Context) *grpc.ClientConn {
 	var conn *grpc.ClientConn
 	var err error
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond * 500)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*500)
 	defer cancel()
 
 	if config.JaegerOpen == 1 {
 
-		tracer, _            := c.Get("Tracer")
+		tracer, _ := c.Get("Tracer")
 		parentSpanContext, _ := c.Get("ParentSpanContext")
 
 		conn, err = grpc.DialContext(

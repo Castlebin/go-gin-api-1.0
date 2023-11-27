@@ -1,14 +1,15 @@
 package route
 
 import (
+	"go_gin_api_1_0/app/controller/jaeger_conn"
+	"go_gin_api_1_0/app/controller/product"
+	"go_gin_api_1_0/app/controller/test"
+	"go_gin_api_1_0/app/route/middleware/exception"
+	"go_gin_api_1_0/app/route/middleware/jaeger"
+	"go_gin_api_1_0/app/route/middleware/logger"
+	"go_gin_api_1_0/app/util/response"
+
 	"github.com/gin-gonic/gin"
-	"go-gin-api/app/controller/jaeger_conn"
-	"go-gin-api/app/controller/product"
-	"go-gin-api/app/controller/test"
-	"go-gin-api/app/route/middleware/exception"
-	"go-gin-api/app/route/middleware/jaeger"
-	"go-gin-api/app/route/middleware/logger"
-	"go-gin-api/app/util/response"
 )
 
 func SetupRouter(engine *gin.Engine) {
@@ -19,12 +20,12 @@ func SetupRouter(engine *gin.Engine) {
 	//404
 	engine.NoRoute(func(c *gin.Context) {
 		utilGin := response.Gin{Ctx: c}
-		utilGin.Response(404,"请求方法不存在", nil)
+		utilGin.Response(404, "请求方法不存在", nil)
 	})
 
 	engine.GET("/ping", func(c *gin.Context) {
 		utilGin := response.Gin{Ctx: c}
-		utilGin.Response(1,"pong", nil)
+		utilGin.Response(1, "pong", nil)
 	})
 
 	// 测试链路追踪

@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"go_gin_api_1_0/app/config"
+	"go_gin_api_1_0/app/util/response"
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	jsonUtil "github.com/xinliangnote/go-util/json"
 	"github.com/xinliangnote/go-util/time"
-	"go-gin-api/app/config"
-	"go-gin-api/app/util/response"
-	"log"
-	"os"
 )
 
 type bodyLogWriter struct {
@@ -70,18 +71,18 @@ func SetUp() gin.HandlerFunc {
 		// 日志格式
 		accessLogMap := make(map[string]interface{})
 
-		accessLogMap["request_time"]      = startTime
-		accessLogMap["request_method"]    = c.Request.Method
-		accessLogMap["request_uri"]       = c.Request.RequestURI
-		accessLogMap["request_proto"]     = c.Request.Proto
-		accessLogMap["request_ua"]        = c.Request.UserAgent()
-		accessLogMap["request_referer"]   = c.Request.Referer()
+		accessLogMap["request_time"] = startTime
+		accessLogMap["request_method"] = c.Request.Method
+		accessLogMap["request_uri"] = c.Request.RequestURI
+		accessLogMap["request_proto"] = c.Request.Proto
+		accessLogMap["request_ua"] = c.Request.UserAgent()
+		accessLogMap["request_referer"] = c.Request.Referer()
 		accessLogMap["request_post_data"] = c.Request.PostForm.Encode()
 		accessLogMap["request_client_ip"] = c.ClientIP()
 
 		accessLogMap["response_time"] = endTime
 		accessLogMap["response_code"] = responseCode
-		accessLogMap["response_msg"]  = responseMsg
+		accessLogMap["response_msg"] = responseMsg
 		accessLogMap["response_data"] = responseData
 
 		accessLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)

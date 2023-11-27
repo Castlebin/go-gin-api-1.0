@@ -2,35 +2,36 @@ package request
 
 import (
 	"crypto/tls"
-	"github.com/gin-gonic/gin"
-	"github.com/opentracing/opentracing-go"
-	"github.com/opentracing/opentracing-go/ext"
-	"go-gin-api/app/config"
+	"go_gin_api_1_0/app/config"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go/ext"
 )
 
 func HttpGet(url string, c *gin.Context) (string, error) {
 
 	tr := &http.Transport{
-		TLSClientConfig : &tls.Config{InsecureSkipVerify: true},
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 
 	client := &http.Client{
-		Timeout   : time.Second * 5, //默认5秒超时时间
-		Transport : tr,
+		Timeout:   time.Second * 5, //默认5秒超时时间
+		Transport: tr,
 	}
 
-	req, err := http.NewRequest("GET", url,nil)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return "", err
 	}
 
 	if config.JaegerOpen == 1 {
 
-		tracer, _            := c.Get("Tracer")
+		tracer, _ := c.Get("Tracer")
 		parentSpanContext, _ := c.Get("ParentSpanContext")
 
 		span := opentracing.StartSpan(
@@ -48,7 +49,7 @@ func HttpGet(url string, c *gin.Context) (string, error) {
 		}
 	}
 
-	resp ,err :=  client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}

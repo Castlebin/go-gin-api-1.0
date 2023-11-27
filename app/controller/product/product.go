@@ -2,11 +2,12 @@ package product
 
 import (
 	"fmt"
+	"go_gin_api_1_0/app/controller/param_bind"
+	"go_gin_api_1_0/app/controller/param_verify"
+	"go_gin_api_1_0/app/util/bind"
+	"go_gin_api_1_0/app/util/response"
+
 	"github.com/gin-gonic/gin"
-	"go-gin-api/app/controller/param_bind"
-	"go-gin-api/app/controller/param_verify"
-	"go-gin-api/app/util/bind"
-	"go-gin-api/app/util/response"
 	"gopkg.in/go-playground/validator.v9"
 )
 

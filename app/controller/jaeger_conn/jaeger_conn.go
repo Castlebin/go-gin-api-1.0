@@ -2,14 +2,15 @@ package jaeger_conn
 
 import (
 	"context"
+	"go_gin_api_1_0/app/model/proto/listen"
+	"go_gin_api_1_0/app/model/proto/read"
+	"go_gin_api_1_0/app/model/proto/speak"
+	"go_gin_api_1_0/app/model/proto/write"
+	"go_gin_api_1_0/app/util/grpc_client"
+	"go_gin_api_1_0/app/util/request"
+	"go_gin_api_1_0/app/util/response"
+
 	"github.com/gin-gonic/gin"
-	"go-gin-api/app/model/proto/listen"
-	"go-gin-api/app/model/proto/read"
-	"go-gin-api/app/model/proto/speak"
-	"go-gin-api/app/model/proto/write"
-	"go-gin-api/app/util/grpc_client"
-	"go-gin-api/app/util/request"
-	"go-gin-api/app/util/response"
 )
 
 func JaegerTest(c *gin.Context) {
@@ -46,12 +47,11 @@ func JaegerTest(c *gin.Context) {
 	// 业务处理...
 
 	msg := resListen.Message + "-" +
-		   resSpeak.Message + "-" +
-		   resRead.Message + "-" +
-		   resWrite.Message + "-" +
-		   resHttpGet
+		resSpeak.Message + "-" +
+		resRead.Message + "-" +
+		resWrite.Message + "-" +
+		resHttpGet
 
-
-	utilGin := response.Gin{Ctx:c}
+	utilGin := response.Gin{Ctx: c}
 	utilGin.Response(1, msg, nil)
 }

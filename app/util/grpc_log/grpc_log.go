@@ -3,12 +3,13 @@ package grpc_log
 import (
 	"context"
 	"fmt"
-	"github.com/xinliangnote/go-util/json"
-	"github.com/xinliangnote/go-util/time"
-	"go-gin-api/app/config"
-	"google.golang.org/grpc"
+	"go_gin_api_1_0/app/config"
 	"log"
 	"os"
+
+	"github.com/xinliangnote/go-util/json"
+	"github.com/xinliangnote/go-util/time"
+	"google.golang.org/grpc"
 )
 
 var grpcChannel = make(chan string, 100)
@@ -32,11 +33,11 @@ func ClientInterceptor() grpc.UnaryClientInterceptor {
 		// 日志格式
 		grpcLogMap := make(map[string]interface{})
 
-		grpcLogMap["request_time"]   = startTime
-		grpcLogMap["request_data"]   = req
+		grpcLogMap["request_time"] = startTime
+		grpcLogMap["request_data"] = req
 		grpcLogMap["request_method"] = method
 
-		grpcLogMap["response_data"]  = reply
+		grpcLogMap["response_data"] = reply
 		grpcLogMap["response_error"] = err
 
 		grpcLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)

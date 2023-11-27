@@ -2,19 +2,20 @@ package test
 
 import (
 	"fmt"
+	"go_gin_api_1_0/app/util/response"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/xinliangnote/go-util/aes"
 	"github.com/xinliangnote/go-util/md5"
 	"github.com/xinliangnote/go-util/rsa"
-	"go-gin-api/app/util/response"
-	"time"
 )
 
 func Md5Test(c *gin.Context) {
-	startTime  := time.Now()
-	appSecret  := "IgkibX71IEf382PT"
+	startTime := time.Now()
+	appSecret := "IgkibX71IEf382PT"
 	encryptStr := "param_1=xxx&param_2=xxx&ak=xxx&ts=1111111111"
-	count      := 1000000
+	count := 1000000
 	for i := 0; i < count; i++ {
 		// 生成签名
 		md5.MD5(appSecret + encryptStr + appSecret)
@@ -27,10 +28,10 @@ func Md5Test(c *gin.Context) {
 }
 
 func AesTest(c *gin.Context) {
-	startTime  := time.Now()
-	appSecret  := "IgkibX71IEf382PT"
+	startTime := time.Now()
+	appSecret := "IgkibX71IEf382PT"
 	encryptStr := "param_1=xxx&param_2=xxx&ak=xxx&ts=1111111111"
-	count      := 1000000
+	count := 1000000
 	for i := 0; i < count; i++ {
 		// 生成签名
 		sn, _ := aes.Encrypt(encryptStr, []byte(appSecret), appSecret)
@@ -43,9 +44,9 @@ func AesTest(c *gin.Context) {
 }
 
 func RsaTest(c *gin.Context) {
-	startTime  := time.Now()
+	startTime := time.Now()
 	encryptStr := "param_1=xxx&param_2=xxx&ak=xxx&ts=1111111111"
-	count      := 500
+	count := 500
 	for i := 0; i < count; i++ {
 		// 生成签名
 		sn, _ := rsa.PublicEncrypt(encryptStr, "rsa/public.pem")

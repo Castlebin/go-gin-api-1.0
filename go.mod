@@ -1,4 +1,4 @@
-module go-gin-api
+module go_gin_api_1_0
 
 go 1.12
 

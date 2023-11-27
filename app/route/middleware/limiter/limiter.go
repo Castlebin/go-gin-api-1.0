@@ -2,13 +2,14 @@ package limiter
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"go-gin-api/app/util/response"
-	"golang.org/x/time/rate"
+	"go_gin_api_1_0/app/util/response"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"golang.org/x/time/rate"
 )
 
-func SetUp (maxBurstSize int) gin.HandlerFunc {
+func SetUp(maxBurstSize int) gin.HandlerFunc {
 
 	limiter := rate.NewLimiter(rate.Every(time.Second*1), maxBurstSize)
 	return func(c *gin.Context) {

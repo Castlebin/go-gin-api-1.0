@@ -2,16 +2,17 @@ package error
 
 import (
 	"fmt"
-	"github.com/xinliangnote/go-util/json"
-	"github.com/xinliangnote/go-util/mail"
-	timeUtil "github.com/xinliangnote/go-util/time"
-	"go-gin-api/app/config"
-	"go-gin-api/app/route/middleware/exception"
+	"go_gin_api_1_0/app/config"
+	"go_gin_api_1_0/app/route/middleware/exception"
 	"log"
 	"os"
 	"runtime/debug"
 	"strings"
 	"time"
+
+	"github.com/xinliangnote/go-util/json"
+	"github.com/xinliangnote/go-util/mail"
+	timeUtil "github.com/xinliangnote/go-util/time"
 )
 
 type errorString struct {
@@ -22,31 +23,31 @@ func (e *errorString) Error() string {
 	return e.s
 }
 
-func ErrorNew (text string) error {
+func ErrorNew(text string) error {
 	alarm("INFO", text)
 	return &errorString{text}
 }
 
 // 发邮件
-func ErrorMail (text string) error {
-	alarm("MAIL",text)
+func ErrorMail(text string) error {
+	alarm("MAIL", text)
 	return &errorString{text}
 }
 
 // 发短信
-func ErrorSms (text string) error {
+func ErrorSms(text string) error {
 	alarm("SMS", text)
 	return &errorString{text}
 }
 
 // 发微信
-func ErrorWeChat (text string) error {
+func ErrorWeChat(text string) error {
 	alarm("WX", text)
 	return &errorString{text}
 }
 
 // 告警方法
-func  alarm(level string, str string) {
+func alarm(level string, str string) {
 	if level == "MAIL" {
 		DebugStack := ""
 		for _, v := range strings.Split(string(debug.Stack()), "\n") {
@@ -56,21 +57,21 @@ func  alarm(level string, str string) {
 		subject := fmt.Sprintf("【系统告警】%s 项目出错了！", config.AppName)
 
 		body := strings.ReplaceAll(exception.MailTemplate, "{ErrorMsg}", fmt.Sprintf("%s", str))
-		body  = strings.ReplaceAll(body, "{RequestTime}", timeUtil.GetCurrentDate())
-		body  = strings.ReplaceAll(body, "{RequestURL}", "--")
-		body  = strings.ReplaceAll(body, "{RequestUA}", "--")
-		body  = strings.ReplaceAll(body, "{RequestIP}", "--")
-		body  = strings.ReplaceAll(body, "{DebugStack}", DebugStack)
+		body = strings.ReplaceAll(body, "{RequestTime}", timeUtil.GetCurrentDate())
+		body = strings.ReplaceAll(body, "{RequestURL}", "--")
+		body = strings.ReplaceAll(body, "{RequestUA}", "--")
+		body = strings.ReplaceAll(body, "{RequestIP}", "--")
+		body = strings.ReplaceAll(body, "{DebugStack}", DebugStack)
 
 		// 执行发邮件
 		options := &mail.Options{
-			MailHost : config.SystemEmailHost,
-			MailPort : config.SystemEmailPort,
-			MailUser : config.SystemEmailUser,
-			MailPass : config.SystemEmailPass,
-			MailTo   : config.ErrorNotifyUser,
-			Subject  : subject,
-			Body     : body,
+			MailHost: config.SystemEmailHost,
+			MailPort: config.SystemEmailPort,
+			MailUser: config.SystemEmailUser,
+			MailPass: config.SystemEmailPass,
+			MailTo:   config.ErrorNotifyUser,
+			Subject:  subject,
+			Body:     body,
 		}
 		_ = mail.Send(options)
 
